@@ -1,0 +1,89 @@
+name: Generate KiCAD Design Outputs (Windows)
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: "Release tag (e.g. D.0.0.1)"
+        required: true
+      description:
+        description: "Short description for release"
+        required: true
+        default: "Auto-generated Design Outputs release"
+
+jobs:
+  build:
+    name: Run KiCAD Design Jobset
+    runs-on: [self-hosted, Windows, EEE-Workstation]
+
+    steps:
+      - name: 🧾 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🔍 Verify KiCAD Installation
+        shell: powershell
+        run: |
+          $kicadPath = "C:\Program Files\KiCad\9.0\bin\kicad-cli.exe"
+          Write-Host "Checking for KiCAD CLI at: $kicadPath"
+          if (-Not (Test-Path $kicadPath)) { Write-Error "❌ KiCAD not found!"; exit 1 }
+          & $kicadPath --version
+
+      - name: ▶️ Run KiCAD Jobset (Design Outputs)
+        shell: powershell
+        run: |
+          Write-Host "=== Running KiCAD Jobset for Design Outputs ==="
+          $kicadPath = "C:\Program Files\KiCad\9.0\bin\kicad-cli.exe"
+          & $kicadPath jobset run -f Outputs.kicad_jobset --output 28dab1d3-7bf2-4d8a-9723-bcdd14e1d814 OBC.kicad_pro
+          Write-Host "=== Design Outputs Generation Complete ==="
+
+      - name: 📁 Verify Design Output Folder
+        shell: powershell
+        run: |
+          if (-Not (Test-Path "Design-Outputs")) { Write-Error "❌ Design-Outputs missing!"; exit 1 }
+          Write-Host "✅ Design-Outputs folder exists"
+          Write-Host "Listing all files:"
+          Get-ChildItem -Recurse "Design-Outputs" | Format-Table FullName
+
+      - name: 🗜️ Zip Design Outputs
+        shell: powershell
+        run: |
+          $zipFile = "Design-Outputs.zip"
+          if (Test-Path $zipFile) { Remove-Item $zipFile }
+          Compress-Archive -Path "Design-Outputs/*" -DestinationPath $zipFile
+          Write-Host "✅ Design outputs zipped as $zipFile"
+
+      - name: 📦 Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: design-outputs-zip
+          path: Design-Outputs.zip
+
+  release:
+    name: Create Draft Release (Design Outputs)
+    runs-on: [self-hosted, Windows, EEE-Workstation]
+    needs: build
+
+    steps:
+      - name: ⬇️ Download Zipped Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: design-outputs-zip
+          path: ./outputs
+
+      - name: 🗂️ List Files to Upload
+        shell: powershell
+        run: |
+          Write-Host "=== Files in ./outputs ==="
+          Get-ChildItem -Recurse ./outputs | Format-Table FullName
+
+      - name: 🚀 Create Draft GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.tag_name }}
+          name: "Design Outputs ${{ github.event.inputs.tag_name }}"
+          body: ${{ github.event.inputs.description }}
+          draft: true
+          overwrite_files: true
+          files: ./outputs/Design-Outputs.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

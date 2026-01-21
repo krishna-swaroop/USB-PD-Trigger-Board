@@ -1,0 +1,89 @@
+name: Generate KiCAD Manufacturing Outputs (Windows)
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: "Release tag (e.g. E.0.0.1)"
+        required: true
+      description:
+        description: "Short description for release"
+        required: true
+        default: "Auto-generated Manufacturing Outputs release"
+
+jobs:
+  build:
+    name: Run KiCAD Manufacturing Jobset
+    runs-on: [self-hosted, Windows, EEE-Workstation]
+
+    steps:
+      - name: 🧾 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🔍 Verify KiCAD Installation
+        shell: powershell
+        run: |
+          $kicadPath = "C:\Program Files\KiCad\9.0\bin\kicad-cli.exe"
+          Write-Host "Checking for KiCAD CLI at: $kicadPath"
+          if (-Not (Test-Path $kicadPath)) { Write-Error "❌ KiCAD not found!"; exit 1 }
+          & $kicadPath --version
+
+      - name: ▶️ Run KiCAD Jobset (Manufacturing Outputs)
+        shell: powershell
+        run: |
+          Write-Host "=== Running KiCAD Jobset for Manufacturing Outputs ==="
+          $kicadPath = "C:\Program Files\KiCad\9.0\bin\kicad-cli.exe"
+          & $kicadPath jobset run -f Outputs.kicad_jobset --output 9e5c254b-cb26-4a49-beea-fa7af8a62903 USB-PD-Trigger-Board.kicad_pro
+          Write-Host "=== Manufacturing Outputs Generation Complete ==="
+
+      - name: 📁 Verify Manufacturing Output Folder
+        shell: powershell
+        run: |
+          if (-Not (Test-Path "Manufacturing-Outputs")) { Write-Error "❌ Manufacturing-Outputs missing!"; exit 1 }
+          Write-Host "✅ Manufacturing-Outputs folder exists"
+          Write-Host "Listing all files:"
+          Get-ChildItem -Recurse "Manufacturing-Outputs" | Format-Table FullName
+
+      - name: 🗜️ Zip Manufacturing Outputs
+        shell: powershell
+        run: |
+          $zipFile = "Manufacturing-Outputs.zip"
+          if (Test-Path $zipFile) { Remove-Item $zipFile }
+          Compress-Archive -Path "Manufacturing-Outputs/*" -DestinationPath $zipFile
+          Write-Host "✅ Manufacturing outputs zipped as $zipFile"
+
+      - name: 📦 Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: manufacturing-outputs-zip
+          path: Manufacturing-Outputs.zip
+
+  release:
+    name: Create Draft Release (Manufacturing Outputs)
+    runs-on: [self-hosted, Windows, EEE-Workstation]
+    needs: build
+
+    steps:
+      - name: ⬇️ Download Zipped Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: manufacturing-outputs-zip
+          path: ./outputs
+
+      - name: 🗂️ List Files to Upload
+        shell: powershell
+        run: |
+          Write-Host "=== Files in ./outputs ==="
+          Get-ChildItem -Recurse ./outputs | Format-Table FullName
+
+      - name: 🚀 Create Draft GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.tag_name }}
+          name: "Manufacturing Outputs ${{ github.event.inputs.tag_name }}"
+          body: ${{ github.event.inputs.description }}
+          draft: true
+          overwrite_files: true
+          files: ./outputs/Manufacturing-Outputs.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,91 @@
+name: Generate KiCAD Combined Outputs (Windows)
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: "Release tag (e.g. C.0.0.1)"
+        required: true
+      description:
+        description: "Short description for release"
+        required: true
+        default: "Auto-generated Combined Outputs release"
+
+jobs:
+  build:
+    name: Run KiCAD Jobset (Combined)
+    runs-on: [self-hosted, Windows, EEE-Workstation]
+
+    steps:
+      - name: 🧾 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🔍 Verify KiCAD Installation
+        shell: powershell
+        run: |
+          $kicadPath = "C:\Program Files\KiCad\9.0\bin\kicad-cli.exe"
+          Write-Host "Checking for KiCAD CLI at: $kicadPath"
+          if (-Not (Test-Path $kicadPath)) { Write-Error "❌ KiCAD not found!"; exit 1 }
+          & $kicadPath --version
+
+      - name: ▶️ Run KiCAD Jobset for Design Outputs
+        shell: powershell
+        run: |
+          Write-Host "=== Running KiCAD Jobset for Design Outputs ==="
+          $kicadPath = "C:\Program Files\KiCad\9.0\bin\kicad-cli.exe"
+          & $kicadPath jobset run -f Outputs.kicad_jobset --output 28dab1d3-7bf2-4d8a-9723-bcdd14e1d814 USB-PD-Trigger-Board.kicad_pro
+          Write-Host "=== Design Outputs Complete ==="
+
+      - name: ▶️ Run KiCAD Jobset for Manufacturing Outputs
+        shell: powershell
+        run: |
+          Write-Host "=== Running KiCAD Jobset for Manufacturing Outputs ==="
+          $kicadPath = "C:\Program Files\KiCad\9.0\bin\kicad-cli.exe"
+          & $kicadPath jobset run -f Outputs.kicad_jobset --output 9e5c254b-cb26-4a49-beea-fa7af8a62903 USB-PD-Trigger-Board.kicad_pro
+          Write-Host "=== Manufacturing Outputs Complete ==="
+      
+      - name: ▶️ Run KiCAD Jobset for creating Ray-Traced Renders
+        shell: powershell
+        run: |
+          Write-Host "=== Running KiCAD Jobset for creating Ray-Traced Renders of PCB ==="
+          $kicadPath = "C:\Program Files\KiCad\9.0\bin\kicad-cli.exe"
+          & $kicadPath jobset run -f Outputs.kicad_jobset --output 81c80ad4-e8b9-4c9a-8bed-df7864fdefc6 USB-PD-Trigger-Board.kicad_pro
+          Write-Host "=== Render Output Complete ==="
+          
+      - name: 🗜️ Zip Combined Outputs
+        shell: powershell
+        run: |
+          $zipFile = "Outputs.zip"
+          if (Test-Path $zipFile) { Remove-Item $zipFile }
+          Compress-Archive -Path "Design-Outputs/*","Manufacturing-Outputs/*" -DestinationPath $zipFile
+          Write-Host "✅ Combined outputs zipped as $zipFile"
+
+      - name: 📦 Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: outputs-zip
+          path: Outputs.zip
+
+  release:
+    name: Create Draft Release (Combined Outputs)
+    runs-on: [self-hosted, Windows, EEE-Workstation]
+    needs: build
+
+    steps:
+      - name: ⬇️ Download Zipped Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: outputs-zip
+          path: ./outputs
+
+      - name: 🚀 Create Draft GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.tag_name }}
+          name: "Outputs ${{ github.event.inputs.tag_name }}"
+          body: ${{ github.event.inputs.description }}
+          draft: true
+          overwrite_files: true
+          files: ./outputs/Outputs.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
