@@ -1,0 +1,29 @@
+{
+  "meta": {
+    "version": "1.0",
+    "generator": "KiCad-Prism-Web"
+  },
+  "comments": [
+    {
+      "id": "c_db3fc3",
+      "author": "Krishna Swaroop",
+      "timestamp": "2026-01-21T22:18:34.438325Z",
+      "status": "OPEN",
+      "context": "SCH",
+      "location": {
+        "x": 212.49729491770267,
+        "y": 79.92448291182518,
+        "layer": "Schematic",
+        "page": "root.kicad_sch"
+      },
+      "content": "Test comment",
+      "replies": [
+        {
+          "author": "Krishna Swaroop",
+          "timestamp": "2026-01-21T22:18:46.447884Z",
+          "content": "Test Reply"
+        }
+      ]
+    }
+  ]
+}
