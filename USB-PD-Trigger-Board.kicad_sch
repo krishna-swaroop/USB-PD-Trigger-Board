@@ -3212,6 +3212,16 @@
 			(embedded_fonts no)
 		)
 	)
+	(text "Testing Kiri Integration"
+		(exclude_from_sim no)
+		(at 142.748 176.022 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "200faa08-607b-4c8b-b769-dcd84569bd45")
+	)
 	(junction
 		(at 243.84 77.47)
 		(diameter 0)
@@ -3393,6 +3403,12 @@
 		(uuid "ae8854a9-9045-46b9-9e91-b189ed7f3aea")
 	)
 	(junction
+		(at 160.02 181.61)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "b6775444-3d3b-4f05-85e1-7c7107085a1b")
+	)
+	(junction
 		(at 143.51 163.83)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3421,12 +3437,6 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "e152f24d-d002-446c-9b88-517cd21b7d92")
-	)
-	(junction
-		(at 160.02 184.15)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "e21f70c1-4bea-4efe-9b92-a9c9325c5d6d")
 	)
 	(junction
 		(at 168.91 95.25)
@@ -3662,7 +3672,7 @@
 	)
 	(wire
 		(pts
-			(xy 127 184.15) (xy 135.89 184.15)
+			(xy 127 181.61) (xy 135.89 181.61)
 		)
 		(stroke
 			(width 0)
@@ -3752,6 +3762,16 @@
 	)
 	(wire
 		(pts
+			(xy 160.02 181.61) (xy 160.02 171.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "28763fa8-9327-4df2-9cdb-6f88d0f07399")
+	)
+	(wire
+		(pts
 			(xy 176.53 210.82) (xy 176.53 203.2)
 		)
 		(stroke
@@ -3792,7 +3812,7 @@
 	)
 	(wire
 		(pts
-			(xy 140.97 184.15) (xy 160.02 184.15)
+			(xy 140.97 181.61) (xy 160.02 181.61)
 		)
 		(stroke
 			(width 0)
@@ -4029,16 +4049,6 @@
 			(type default)
 		)
 		(uuid "57df075a-489b-4e1e-8678-7c217dba8e70")
-	)
-	(wire
-		(pts
-			(xy 160.02 191.77) (xy 160.02 184.15)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "595863ce-5d18-4452-89bf-45b5d682b4c8")
 	)
 	(wire
 		(pts
@@ -4442,7 +4452,7 @@
 	)
 	(wire
 		(pts
-			(xy 127 180.34) (xy 127 184.15)
+			(xy 127 180.34) (xy 127 181.61)
 		)
 		(stroke
 			(width 0)
@@ -4479,6 +4489,16 @@
 			(type default)
 		)
 		(uuid "abf56142-9c58-4408-be99-455651df149a")
+	)
+	(wire
+		(pts
+			(xy 160.02 181.61) (xy 160.02 191.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "aec5e4e2-4720-432e-becf-9b15851f8c94")
 	)
 	(wire
 		(pts
@@ -4839,16 +4859,6 @@
 			(type default)
 		)
 		(uuid "e927236e-aba3-4e72-957c-49d2f7447817")
-	)
-	(wire
-		(pts
-			(xy 160.02 184.15) (xy 160.02 171.45)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "e9f883f6-99d5-4fe9-8bd2-ab5d58589eca")
 	)
 	(wire
 		(pts
@@ -9470,6 +9480,111 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R_Small_US")
+		(at 138.43 181.61 90)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "86377633-a9a6-4250-a6c4-251c5670b629")
+		(property "Reference" "R5"
+			(at 136.398 178.816 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Value" "2.4k_0.1W_0603"
+			(at 131.826 183.896 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
+			(at 138.43 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.yageogroup.com/content/datasheet/asset/file/PYU-RC_GROUP_51_ROHS_L"
+			(at 138.43 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor, small US symbol"
+			(at 138.43 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "YAGEO"
+			(at 138.43 181.61 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer Part Number" "RC0603JR-072K4L"
+			(at 138.43 181.61 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Vendor" "DigiKey"
+			(at 138.43 181.61 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Vendor Part Number" "311-2.4KGRDKR-ND"
+			(at 138.43 181.61 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "4e3791de-0e08-45fc-b93e-03cc22f40e11")
+		)
+		(pin "1"
+			(uuid "5a91ea2e-154f-4aaa-aa04-adc5e19839e6")
+		)
+		(instances
+			(project "USB-PD-Trigger-Board"
+				(path "/6c5f5d69-1c0b-4294-8a58-8db0ec7d5cdf"
+					(reference "R5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Device:C_Small")
 		(at 71.12 82.55 0)
 		(unit 1)
@@ -12253,111 +12368,6 @@
 			(project "USB-PD-Trigger-Board"
 				(path "/6c5f5d69-1c0b-4294-8a58-8db0ec7d5cdf"
 					(reference "#PWR023")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:R_Small_US")
-		(at 138.43 184.15 90)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "f040e438-deee-45e3-ab4f-7e33231ff8a0")
-		(property "Reference" "R5"
-			(at 136.398 181.356 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Value" "5.1k_0.1W_0603"
-			(at 131.826 186.436 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
-		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
-			(at 138.43 184.15 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "https://www.yageogroup.com/content/datasheet/asset/file/PYU-RC_GROUP_51_ROHS_L"
-			(at 138.43 184.15 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "Resistor, small US symbol"
-			(at 138.43 184.15 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer" "YAGEO"
-			(at 138.43 184.15 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Manufacturer Part Number" "RC0603FR-075K1L"
-			(at 138.43 184.15 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Vendor" "DigiKey"
-			(at 138.43 184.15 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Vendor Part Number" "311-5.10KHRDKR-ND"
-			(at 138.43 184.15 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "2"
-			(uuid "a085d54b-e985-4931-85c1-c3876716ce0d")
-		)
-		(pin "1"
-			(uuid "8dc88d82-aebb-40dd-9311-32bc5a824bab")
-		)
-		(instances
-			(project "USB-PD-Trigger-Board"
-				(path "/6c5f5d69-1c0b-4294-8a58-8db0ec7d5cdf"
-					(reference "R5")
 					(unit 1)
 				)
 			)
