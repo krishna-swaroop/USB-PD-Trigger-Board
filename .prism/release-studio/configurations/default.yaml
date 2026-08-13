@@ -1,21 +1,18 @@
-# Release Studio configuration for the USB-PD Trigger Board.
-#
-# This file is a build input: the release closure checks out the whole
-# repository tree at the commit being released, so editing it changes
-# technical_config_digest and therefore the build key.
 schema: prism.release-studio.configuration/1
 title: USB-PD Trigger Board production release
-
-# Paths are relative to the project root.
 board: USB-PD-Trigger-Board.kicad_pcb
 schematic: USB-PD-Trigger-Board.kicad_sch
-
-# Declared so the jobset's output closures are classified for hermeticity.
-# The build itself runs the Release Studio step catalogue.
 jobset: Outputs.kicad_jobset
-
-# Omitted deliberately: the board declares no assembly variants, and the
-# schema rejects a blank string rather than letting "" mean two things.
-
+default_variant: default
+fields:
+  via_treatment: Tented
+  assembly_ipc_class: '2'
+  solder_mask_colour: Green
+  manufacturing_ipc_class: '2'
+notes: {}
+variants:
+- default
+typography: geist-pixel-square
 document_number: USB-PD-TRIG
 revision: A
+vendors: []
