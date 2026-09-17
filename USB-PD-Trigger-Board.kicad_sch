@@ -3448,6 +3448,16 @@
 		)
 		(uuid "200faa08-607b-4c8b-b769-dcd84569bd45")
 	)
+	(text "Testing Variants"
+		(exclude_from_sim no)
+		(at 41.91 65.278 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "523af9e8-6508-43dc-b3d3-99279be1410b")
+	)
 	(junction
 		(at 243.84 77.47)
 		(diameter 0)
@@ -14002,6 +14012,10 @@
 				(path "/6c5f5d69-1c0b-4294-8a58-8db0ec7d5cdf"
 					(reference "J1")
 					(unit 1)
+					(variant
+						(name "20V")
+						(dnp yes)
+					)
 				)
 			)
 		)
