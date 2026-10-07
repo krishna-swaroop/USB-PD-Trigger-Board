@@ -1,0 +1,4 @@
+(fp_lib_table
+	(version 7)
+	(lib (name "remote_VR5510") (type "KiCad") (uri "/Users/Swaroop/Personal-Projects/KiCAD-Platform/USB-PD-Trigger-Board/RemoteLibrary/footprints/remote_VR5510.pretty/") (options "") (descr "Remote download"))
+)

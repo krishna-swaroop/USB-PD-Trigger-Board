@@ -1,0 +1,11 @@
+{
+  "author_name": "Krishna Swaroop",
+  "local_path": ".comments/comments.json",
+  "mode": "REST_API",
+  "rest_allow_write": true,
+  "rest_delete_url_template": "http://localhost:8000/api/projects/USB-PD-Trigger-Board/comments/{id}",
+  "rest_list_url": "http://localhost:8000/api/projects/USB-PD-Trigger-Board/comments",
+  "rest_patch_url_template": "http://localhost:8000/api/projects/USB-PD-Trigger-Board/comments/{id}",
+  "rest_reply_url_template": "http://localhost:8000/api/projects/USB-PD-Trigger-Board/comments/{id}/replies",
+  "show_markers": true
+}

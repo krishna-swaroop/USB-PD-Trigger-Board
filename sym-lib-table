@@ -1,0 +1,4 @@
+(sym_lib_table
+	(version 7)
+	(lib (name "remote_VR5510") (type "KiCad") (uri "/Users/Swaroop/Personal-Projects/KiCAD-Platform/USB-PD-Trigger-Board/RemoteLibrary/symbols/remote_VR5510.kicad_sym") (options "") (descr "Remote download"))
+)
